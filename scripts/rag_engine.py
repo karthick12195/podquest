@@ -7,6 +7,7 @@ import os
 import shutil
 import warnings
 from datetime import datetime
+
 # Add the specific warning you want to suppress
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -17,11 +18,13 @@ model = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-l")
 CHROMA_PATH = "chroma"
 DATA_PATH = "data/transcripts"
 
+
 def main():
     """
     Main function to generate data store for the RAG engine.
     """
     generate_data_store()
+
 
 def generate_data_store():
     """
@@ -33,10 +36,11 @@ def generate_data_store():
     chunks = split_text(documents)
     save_to_chroma(chunks)
 
+
 def load_documents():
     """
     Load documents from the specified directory.
-    
+
     Returns:
         list[Document]: List of loaded documents.
     """
@@ -44,13 +48,14 @@ def load_documents():
     documents = loader.load()
     return documents
 
+
 def split_text(documents: list[Document]):
     """
     Split text into chunks.
-    
+
     Args:
         documents (list[Document]): List of documents.
-    
+
     Returns:
         list[Document]: List of chunks.
     """
@@ -70,10 +75,11 @@ def split_text(documents: list[Document]):
 
     return chunks
 
+
 def save_to_chroma(chunks: list[Document]):
     """
     Save chunks to Chroma database.
-    
+
     Args:
         chunks (list[Document]): List of document chunks.
     """
@@ -84,11 +90,10 @@ def save_to_chroma(chunks: list[Document]):
     print(f"Creating Chroma db at {datetime.now()}")
 
     # Create a new DB from the documents.
-    db = Chroma.from_documents(
-        chunks, model, persist_directory=CHROMA_PATH
-    )
+    db = Chroma.from_documents(chunks, model, persist_directory=CHROMA_PATH)
 
     print(f"Saved {len(chunks)} chunks to {CHROMA_PATH} at {datetime.now()}.")
+
 
 if __name__ == "__main__":
     main()
