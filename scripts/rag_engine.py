@@ -6,6 +6,7 @@ from langchain.vectorstores.chroma import Chroma
 import os
 import shutil
 import warnings
+from datetime import datetime
 # Add the specific warning you want to suppress
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -80,12 +81,14 @@ def save_to_chroma(chunks: list[Document]):
     if os.path.exists(CHROMA_PATH):
         shutil.rmtree(CHROMA_PATH)
 
+    print(f"Creating Chroma db at {datetime.now()}")
+
     # Create a new DB from the documents.
     db = Chroma.from_documents(
         chunks, model, persist_directory=CHROMA_PATH
     )
 
-    print(f"Saved {len(chunks)} chunks to {CHROMA_PATH}.")
+    print(f"Saved {len(chunks)} chunks to {CHROMA_PATH} at {datetime.now()}.")
 
 if __name__ == "__main__":
     main()
