@@ -55,6 +55,8 @@ def get_videos_df_from_channel(channel_url):
 # Fetch video data from the Huberman Lab YouTube channel
 hub_df = get_videos_df_from_channel(CHANNEL_LINK)
 
+hub_df.to_csv('data/huberman_transcripts_050124.csv')
+
 # Iterate over each row in the DataFrame and save transcripts as markdown files
 for index, row in hub_df.iterrows():
     # Get the title and transcript
@@ -62,7 +64,7 @@ for index, row in hub_df.iterrows():
     transcript = row['transcript']
 
     # Define the filename for the markdown file
-    filename = os.path.join('transcripts', f"{title}.md")
+    filename = os.path.join('data', 'transcripts', f"{title}.md")
 
     # Write transcript to markdown file
     with open(filename, 'w') as file:
