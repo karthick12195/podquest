@@ -4,6 +4,8 @@ from youtube_transcript_api.formatters import TextFormatter
 from pytubefix import YouTube, Channel
 import os
 
+CHANNEL_LINK = 'https://www.youtube.com/@hubermanlab'
+
 def get_videos_df_from_channel(channel_url):
     """
     Fetches video data from a YouTube channel and returns it as a DataFrame.
@@ -51,7 +53,7 @@ def get_videos_df_from_channel(channel_url):
     return df
 
 # Fetch video data from the Huberman Lab YouTube channel
-hub_df = get_videos_df_from_channel('https://www.youtube.com/@hubermanlab')
+hub_df = get_videos_df_from_channel(CHANNEL_LINK)
 
 # Iterate over each row in the DataFrame and save transcripts as markdown files
 for index, row in hub_df.iterrows():
