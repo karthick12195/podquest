@@ -53,11 +53,6 @@ def main():
     "temperature": 0.2
     }
 
-    # output = replicate.run(
-    # "snowflake/snowflake-arctic-instruct",
-    # input=input
-    # )
-
     response_text = Complete("snowflake-arctic", prompt)
 
     # model = ChatOpenAI()
