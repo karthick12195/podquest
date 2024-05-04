@@ -1,12 +1,16 @@
+"""
+This script generates a data store based on snowflake/arctic-embed-l model
+"""
+
+import os
+import warnings
+import shutil
+from datetime import datetime
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 from langchain.vectorstores.chroma import Chroma
-import os
-import shutil
-import warnings
-from datetime import datetime
 
 # Add the specific warning you want to suppress
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -90,7 +94,7 @@ def save_to_chroma(chunks: list[Document]):
     print(f"Creating Chroma db at {datetime.now()}")
 
     # Create a new DB from the documents.
-    db = Chroma.from_documents(chunks, model, persist_directory=CHROMA_PATH)
+    Chroma.from_documents(chunks, model, persist_directory=CHROMA_PATH)
 
     print(f"Saved {len(chunks)} chunks to {CHROMA_PATH} at {datetime.now()}.")
 
