@@ -4,15 +4,12 @@ from dataclasses import dataclass
 from langchain.vectorstores.chroma import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.prompts import ChatPromptTemplate
-# import replicate
-
 from snowflake.snowpark import Session
 from snowflake.ml.utils import connection_params
+from snowflake.cortex import Complete
 
 params = connection_params.SnowflakeLoginOptions("xvb49931")
 sp_session = Session.builder.configs(params).create()
-
-from snowflake.cortex import Complete
 
 
 EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-l")
