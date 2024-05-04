@@ -1,3 +1,4 @@
+.vscode/
 .streamlit/
 chroma/
 transcripts/
@@ -5,3 +6,4 @@ huberman_transcripts_050124.csv
 .DS_Store
 data/
 settings.json
+scripts/__pycache__/
