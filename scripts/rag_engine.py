@@ -27,6 +27,8 @@ def generate_data_store():
     Generate data store for the RAG engine.
     """
     documents = load_documents()
+    print(f"Loaded {len(documents)} documents.")
+
     chunks = split_text(documents)
     save_to_chroma(chunks)
 
