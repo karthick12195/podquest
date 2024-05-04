@@ -13,8 +13,6 @@ sp_session = Session.builder.configs(params).create()
 
 EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-l")
 
-# os.environ["REPLICATE_API_TOKEN"] = 'r8_0BdpSPQ6tS3kue3tO1g8cQo8dWYFCE71BfxJJ'
-
 CHROMA_PATH = "chroma"
 
 PROMPT_TEMPLATE = """
