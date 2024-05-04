@@ -1,10 +1,14 @@
 import argparse
+import warnings
 from snowflake.ml.utils import connection_params
 from snowflake.snowpark import Session
 from snowflake.cortex import Complete
 from langchain.vectorstores.chroma import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.prompts import ChatPromptTemplate
+
+# Add the specific warning you want to suppress
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 # Snowflake connection parameters
 SNOWFLAKE_LOGIN_OPTIONS = connection_params.SnowflakeLoginOptions("xvb49931")
