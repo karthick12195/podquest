@@ -1,17 +1,20 @@
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain.document_loaders import DirectoryLoader
+from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 from langchain.vectorstores.chroma import Chroma
 import os
 import shutil
+import warnings
+# Add the specific warning you want to suppress
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 # Initialize Hugging Face model for embeddings
 model = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-l")
 
 # Constants for paths
 CHROMA_PATH = "chroma"
-DATA_PATH = "transcripts"
+DATA_PATH = "data/transcripts"
 
 def main():
     """
@@ -79,7 +82,7 @@ def save_to_chroma(chunks: list[Document]):
     db = Chroma.from_documents(
         chunks, model, persist_directory=CHROMA_PATH
     )
-    db.persist()
+
     print(f"Saved {len(chunks)} chunks to {CHROMA_PATH}.")
 
 if __name__ == "__main__":
