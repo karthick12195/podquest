@@ -1,4 +1,3 @@
-import argparse
 import warnings
 from snowflake.ml.utils import connection_params
 from snowflake.snowpark import Session
@@ -34,15 +33,7 @@ Answer the question based on the above context: {question}
 """
 
 
-def main():
-    # Command-line argument parsing
-    parser = argparse.ArgumentParser(
-        description="Answer questions based on provided text."
-    )
-    parser.add_argument("query_text", type=str, help="The query text.")
-    args = parser.parse_args()
-    query_text = args.query_text
-
+def get_answer_from_prompt(query_text):
     # Prepare the database
     embedding_function = EMBEDDING_MODEL
     db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
@@ -57,16 +48,12 @@ def main():
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     prompt = prompt_template.format(context=context_text, question=query_text)
-    print(prompt)
+    # print(prompt)
 
     # Generate response using Snowflake Cortex
     response_text = Complete("snowflake-arctic", prompt)
 
     # Gather sources for the response
     sources = [doc.metadata.get("source", None) for doc, _score in results]
-    formatted_response = f"Response: {response_text}\nSources: {sources}"
-    print(formatted_response)
-
-
-if __name__ == "__main__":
-    main()
+    formatted_response = f"{response_text}\n\nSources: {sources}"
+    return formatted_response
