@@ -1,8 +1,5 @@
 import streamlit as st
 import scripts.query_data as query_data
-from st_files_connection import FilesConnection
-
-conn = st.connection('gcs', type=FilesConnection)
 
 def main():
     st.title("Question Answering App")
