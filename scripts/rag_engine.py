@@ -16,7 +16,7 @@ from langchain.vectorstores.chroma import Chroma
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 # Initialize Hugging Face model for embeddings
-model = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-l")
+model = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-m")
 
 # Constants for paths
 CHROMA_PATH = "chroma"
