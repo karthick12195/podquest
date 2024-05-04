@@ -16,7 +16,7 @@ SNOWFLAKE_LOGIN_OPTIONS = connection_params.SnowflakeLoginOptions("xvb49931")
 SP_SESSION = Session.builder.configs(SNOWFLAKE_LOGIN_OPTIONS).create()
 
 # Hugging Face embedding model
-EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-l")
+EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-m")
 
 # Directory for storing Chroma data
 CHROMA_PATH = "chroma"
@@ -29,7 +29,7 @@ Answer the question based only on the following context:
 
 ---
 
-Answer the question based on the above context: {question}
+Here is the question: {question}
 """
 
 
@@ -40,9 +40,9 @@ def get_answer_from_prompt(query_text):
 
     # Search the database
     results = db.similarity_search_with_relevance_scores(query_text, k=5)
-    if not results or results[0][1] < 0.2:
+    if not results or results[0][1] < 0.5:
         print("Unable to find matching results.")
-        return
+        return "Unable to find matching results."
 
     # Construct prompt for response generation
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
