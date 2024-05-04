@@ -1,8 +1,13 @@
+"""
+This script fetches video data from a YouTube channel and saves it as a CSV file
+with transcripts saved as Markdown files.
+"""
+
+import os
 import pandas as pd
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
-from pytubefix import YouTube, Channel
-import os
+from pytubefix import Channel
 
 CHANNEL_LINK = "https://www.youtube.com/@hubermanlab"
 
@@ -63,11 +68,11 @@ hub_df.to_csv("data/huberman_transcripts_050124.csv")
 for index, row in hub_df.iterrows():
     # Get the title and transcript
     title = row["title"]
-    transcript = row["transcript"]
+    transcript_txt = row["transcript"]
 
     # Define the filename for the markdown file
     filename = os.path.join("data", "transcripts", f"{title}.md")
 
     # Write transcript to markdown file
-    with open(filename, "w") as file:
-        file.write(transcript)
+    with open(filename, "w", encoding="utf-8") as file:
+        file.write(transcript_txt)
