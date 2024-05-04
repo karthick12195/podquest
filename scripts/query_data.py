@@ -48,10 +48,7 @@ def main():
     prompt = prompt_template.format(context=context_text, question=query_text)
     print(prompt)
 
-    input = {
-    "prompt": prompt,
-    "temperature": 0.2
-    }
+    input = {"prompt": prompt, "temperature": 0.2}
 
     response_text = Complete("snowflake-arctic", prompt)
 
