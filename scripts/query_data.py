@@ -55,9 +55,6 @@ def main():
 
     response_text = Complete("snowflake-arctic", prompt)
 
-    # model = ChatOpenAI()
-    # response_text = model.predict(prompt)
-
     sources = [doc.metadata.get("source", None) for doc, _score in results]
     formatted_response = f"Response: {response_text}\nSources: {sources}"
     print(formatted_response)
