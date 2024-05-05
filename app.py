@@ -2,7 +2,7 @@ import streamlit as st
 import scripts.query_data as query_data
 
 def main():
-    st.title("Question Answering App")
+    st.title("PodQuest: Use LLM to ask questions about science based tools from Huberman Lab podcast")
     # Input field for user question
     user_question = st.text_input("Ask a question")
 
