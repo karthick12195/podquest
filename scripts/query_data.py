@@ -1,4 +1,5 @@
 import warnings
+import streamlit as st
 from snowflake.ml.utils import connection_params
 from snowflake.snowpark import Session
 from snowflake.cortex import Complete
@@ -9,11 +10,14 @@ from langchain.prompts import ChatPromptTemplate
 # Add the specific warning you want to suppress
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-# Snowflake connection parameters
+'''# Snowflake connection parameters
 SNOWFLAKE_LOGIN_OPTIONS = connection_params.SnowflakeLoginOptions("xvb49931")
 
 # Snowflake session creation
-SP_SESSION = Session.builder.configs(SNOWFLAKE_LOGIN_OPTIONS).create()
+SP_SESSION = Session.builder.configs(SNOWFLAKE_LOGIN_OPTIONS).create()'''
+
+conn = st.connection("snowflake")
+SP_SESSION = conn.session()
 
 # Hugging Face embedding model
 EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-m")
