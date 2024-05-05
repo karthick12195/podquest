@@ -24,7 +24,6 @@ fastapi-cli==0.0.2
 filetype==1.2.0
 flatbuffers==24.3.25
 fsspec==2024.3.1
-gcsfs==2024.3.1
 gitdb==4.0.11
 GitPython==3.1.43
 google-api-core==2.19.0
