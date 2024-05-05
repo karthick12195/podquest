@@ -1,3 +1,4 @@
+import sqlite3
 import streamlit as st
 import scripts.query_data as query_data
 
