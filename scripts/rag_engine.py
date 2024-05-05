@@ -50,7 +50,7 @@ def load_documents():
     """
     loader = DirectoryLoader(DATA_PATH, glob="*.md")
     documents = loader.load()
-    return documents
+    return documents[:2]
 
 
 def split_text(documents: list[Document]):
