@@ -1,14 +1,8 @@
 import streamlit as st
 import scripts.query_data as query_data
-from langchain.vectorstores.chroma import Chroma
-from langchain_community.embeddings import HuggingFaceEmbeddings
 
 def main():
     st.title("Question Answering App")
-    EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-m")
-    db = Chroma(persist_directory='chroma', embedding_function=EMBEDDING_MODEL)
-
-
     # Input field for user question
     user_question = st.text_input("Ask a question")
 
