@@ -11,9 +11,6 @@ from langchain.prompts import ChatPromptTemplate
 # Add the specific warning you want to suppress
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-conn = st.connection("snowflake")
-SP_SESSION = conn.session()
-
 # Hugging Face embedding model
 EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-l")
 
@@ -22,7 +19,7 @@ CHROMA_PATH = "chroma"
 
 # Template for prompting user
 PROMPT_TEMPLATE = """
-Answer the question based only on the following context:
+Answer the question based only on the following context. If answer is not found in the context, say "Unable to find answers from Huberman Lab".
 
 {context}
 
@@ -33,15 +30,18 @@ Here is the question: {question}
 
 
 def get_answer_from_prompt(query_text):
+    conn = st.connection("snowflake")
+    SP_SESSION = conn.session()
+
     # Prepare the database
     embedding_function = EMBEDDING_MODEL
     db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
 
     # Search the database
     results = db.similarity_search_with_relevance_scores(query_text, k=5)
-    if not results or results[0][1] < 0.5:
-        print("Unable to find matching results.")
-        return "Unable to find matching results."
+    if not results or results[0][1] < 0.6:
+        print("Unable to find answers from Huberman Lab")
+        return "Unable to find answers from Huberman Lab"
 
     # Construct prompt for response generation
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
@@ -54,5 +54,11 @@ def get_answer_from_prompt(query_text):
 
     # Gather sources for the response
     sources = [doc.metadata.get("source", None) for doc, _score in results]
-    formatted_response = f"{response_text}\n\nSources: {sources}"
+    if response_text == ' Unable to find answers from Huberman Lab.':
+        formatted_response = f"{response_text}"
+    else:
+        formatted_response = f"{response_text}\n\nSources: {sources}"
+        with st.expander("Show Relevant text from Podcast transcripts"):
+            st.markdown(context_text)
+    
     return formatted_response
