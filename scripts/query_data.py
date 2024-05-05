@@ -15,7 +15,7 @@ conn = st.connection("snowflake")
 SP_SESSION = conn.session()
 
 # Hugging Face embedding model
-EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-m")
+EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-l")
 
 # Directory for storing Chroma data
 CHROMA_PATH = "chroma"
@@ -47,7 +47,7 @@ def get_answer_from_prompt(query_text):
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     prompt = prompt_template.format(context=context_text, question=query_text)
-    # print(prompt)
+    print(prompt)
 
     # Generate response using Snowflake Cortex
     response_text = Complete("snowflake-arctic", prompt)

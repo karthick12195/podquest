@@ -16,7 +16,7 @@ from langchain.vectorstores.chroma import Chroma
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 # Initialize Hugging Face model for embeddings
-model = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-m")
+model = HuggingFaceEmbeddings(model_name="snowflake/arctic-embed-l")
 
 # Constants for paths
 CHROMA_PATH = "chroma"
@@ -64,7 +64,7 @@ def split_text(documents: list[Document]):
         list[Document]: List of chunks.
     """
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=2000,
+        chunk_size=1000,
         chunk_overlap=250,
         length_function=len,
         add_start_index=True,
