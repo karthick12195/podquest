@@ -47,10 +47,15 @@ def get_videos_df_from_channel(channel_url):
         try:
             # Get transcript for the video
             transcript = YouTubeTranscriptApi.get_transcript(video.video_id)
-            video_info["transcript"] = TextFormatter().format_transcript(transcript)
-        except:
-            print("No transcripts available for", video.video_id)
-            video_info["transcript"] = "NA"
+            video_info["transcript"] = (
+                TextFormatter().format_transcript(transcript).replace("\n", " ")
+            )
+        except Exception as e:
+            if "Could not retrieve a transcript for the video" in str(e):
+                print("No transcripts available for", video.video_id)
+                video_info["transcript"] = "NA"
+            else:
+                print(e)
             continue
 
         # Append video information to DataFrame
