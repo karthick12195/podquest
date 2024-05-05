@@ -1,6 +1,7 @@
-__import__('pysqlite3')
+__import__("pysqlite3")
 import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 import warnings
 import streamlit as st
 from snowflake.cortex import Complete
@@ -19,19 +20,19 @@ CHROMA_PATH = "chroma"
 
 # Template for prompting user
 PROMPT_TEMPLATE = """
-Answer the question based only on the following context. If answer is not found in the context, say "Unable to find answers from Huberman Lab".
+Answer the question based strictly and only based the following context.
 
+Beginning of context:
 {context}
 
 ---
 
+End of context
 Here is the question: {question}
 """
 
 
-def get_answer_from_prompt(query_text):
-    conn = st.connection("snowflake")
-    SP_SESSION = conn.session()
+def get_answer_from_prompt(query_text, _session):
 
     # Prepare the database
     embedding_function = EMBEDDING_MODEL
@@ -41,24 +42,22 @@ def get_answer_from_prompt(query_text):
     results = db.similarity_search_with_relevance_scores(query_text, k=5)
     if not results or results[0][1] < 0.6:
         print("Unable to find answers from Huberman Lab")
-        return "Unable to find answers from Huberman Lab"
+        return "Unable to find answers from Huberman Lab", None
 
     # Construct prompt for response generation
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     prompt = prompt_template.format(context=context_text, question=query_text)
-    print(prompt)
+    # print(prompt)
 
     # Generate response using Snowflake Cortex
-    response_text = Complete("snowflake-arctic", prompt)
+    response_text = Complete("snowflake-arctic", prompt, session=_session)
 
     # Gather sources for the response
     sources = [doc.metadata.get("source", None) for doc, _score in results]
-    if response_text == ' Unable to find answers from Huberman Lab.':
-        formatted_response = f"{response_text}"
-    else:
-        formatted_response = f"{response_text}\n\nSources: {sources}"
-        with st.expander("Show Relevant text from Podcast transcripts"):
-            st.markdown(context_text)
+
+    if response_text == ' Unable to find answers from Huberman Lab':
+        return response_text, None
     
-    return formatted_response
+    formatted_response = f"{response_text}\n\nSources: {sources}"
+    return formatted_response, context_text
