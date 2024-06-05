@@ -1,5 +1,5 @@
 # PodQuest
-PodQuest is a project aimed at creating a chatbot that asks questions on science-related tools for everyday life, drawing from episodes of the Huberman Lab podcast. The chatbot utilizes advanced techniques such as Retrieval-Augmented Generation (RAG) to generate informative responses based on the content of the podcast transcripts.
+PodQuest is a project aimed at creating a chatbot that answers questions on science-related tools for everyday life, drawing from episodes of the Huberman Lab podcast. The chatbot utilizes advanced techniques such as Retrieval-Augmented Generation (RAG) to generate informative responses based on the content of the podcast transcripts.
 
 ## Overview
 The project contains scripts to facilitate the extraction, processing, and querying of data from the Huberman Lab podcast transcripts. These scripts are designed to automate the process of downloading transcripts from YouTube, creating embeddings for efficient retrieval, and responding to user queries with relevant information.
